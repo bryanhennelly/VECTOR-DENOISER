@@ -1,0 +1,25 @@
+cd C:\Users\bryan\OneDrive\Documents\Anaconda\NOISE_REMOVAL
+python train.py --is_train --cuda_id 0 --is_skip --base_model cae_6 --epochs 100 --dataset 1 --num_workers=0 --lr=0.1
+python train.py --is_train --cuda_id 0 --is_skip --base_model cae_4
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 1
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 2
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 3
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 4
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 5
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 6
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 7
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 8
+python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 9
+
+
+
+Note Generate_data.py has also been updated and is used in train.py.
+
+Train.py now accepts a number for --dataset, which should take an int value from 1-9. Train.py will generate the necessary datasets of size 200000 and 20000 on the fly. Typical call should be: python train.py --is_train --cuda_id 0 --is_skip --base_model cae_7 --epochs 200 --dataset 1
+
+Once this is completed a second call should be made to generate a small set of results for the paper - simply make the same call again not including --is_train. This will use the weights from the training and generate results for a small set of 100 spectra that have been shared and will output the resuls in an excel file with appropriate name
+
+cd C:\Users\bryan\OneDrive\Documents\Anaconda\NOISE_REMOVAL
+python 
+from Generate_Data import *
+generate_and_save_data(100,'./data/',3,'c')

@@ -178,7 +178,7 @@ def generate_bCARS(min_features,max_features,min_width,max_width):
     
     SNR = np.random.uniform(10,100) 
     scale = SNR**2/np.ndarray.max(chi3.imag)
-    print(np.ndarray.max(chi3.imag))
+    #print(np.ndarray.max(chi3.imag))
     chi3.imag = chi3.imag*scale
     X=np.random.poisson(chi3.imag,(1,1000))
     SCALE = np.ndarray.max(X)

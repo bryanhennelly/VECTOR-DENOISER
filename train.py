@@ -52,13 +52,13 @@ def parse_opts():
     parser.add_argument('--num_workers', type=int, default=1)
     parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                         metavar='LR', help='initial learning rate')
-    parser.add_argument('--lr_steps', type=float, default=[25,50,75,100,125,150,175,200], nargs="+",
+    parser.add_argument('--lr_steps', type=float, default=[5,10,15,20], nargs="+",
                         help='lr steps for decreasing learning rate') # batch: 64 [10,20,30], [5,10,20]
     parser.add_argument('--base_model', default='cae_4', type=str)
     parser.add_argument('--dataset', default=1, type=int)
     parser.add_argument('--weight_decay', '--wd', default=5e-4, type=float,
                         metavar='W', help='weight decay (default: 5e-4)')
-    parser.add_argument('--epochs', default=100, type=int, metavar='N',
+    parser.add_argument('--epochs', default=25, type=int, metavar='N',
                     help='number of total epochs to run')
     args = parser.parse_args()
     return args

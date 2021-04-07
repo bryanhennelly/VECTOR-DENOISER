@@ -14,9 +14,6 @@ import time
 import pdb
 import argparse
 
-alpha = 0.1
-
-
 # self defined modules
 from models import CAE
 import utils
@@ -60,11 +57,13 @@ def parse_opts():
                         metavar='W', help='weight decay (default: 5e-4)')
     parser.add_argument('--epochs', default=25, type=int, metavar='N',
                     help='number of total epochs to run')
+    parser.add_argument('--alpha', default=5, type=float)
     args = parser.parse_args()
     return args
 
 args = parse_opts()
-
+alpha = args.alpha/10
+print(alpha)
 
 print(args)
 
@@ -135,8 +134,9 @@ print('Before if is train')
 
 # training
 if args.is_train:
+    print(alpha)
     print('Loading dataset.....')
-    dataset_train = raman_dataset_fast(args.dataset,200000)
+    dataset_train = raman_dataset_fast(args.dataset,100000)
     train_loader = DataLoader(dataset_train, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
     dataset_val = raman_dataset_fast(args.dataset,20000)
     val_loader = DataLoader(dataset_val, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
@@ -252,7 +252,7 @@ if args.is_train:
         writer.add_scalar('lr', optimizer.param_groups[0]['lr'], epoch)
         # save the best model
         if val_loss.avg < best_loss:
-            checkpoint = os.path.join(model_save_dir, 'checkpoint'+str(args.dataset)+'.pth.tar')
+            checkpoint = os.path.join(model_save_dir, 'checkpoint'+str(args.dataset)+'_alpha_0_'+str(int(args.alpha))+'.pth.tar')
             utils.save_checkpoint(model, optimizer, epoch, checkpoint)        
             best_loss = val_loss.avg
         print('Best loss: {:.5f}'.format(best_loss))
@@ -288,7 +288,7 @@ else: # testing
         b='c'
     dataset_val = raman_dataset('data', str(a)+b+'Raman.csv', str(a)+b+'CARS.csv', str(a)+b+'SW.csv')
     val_loader = DataLoader(dataset_val, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
-    checkpoint_path = os.path.join(model_save_dir, 'checkpoint'+str(args.dataset)+'.pth.tar')
+    checkpoint_path = os.path.join(model_save_dir, 'checkpoint'+str(args.dataset)+'_alpha_0_'+str(int(args.alpha))+'.pth.tar')
     checkpoint = torch.load(checkpoint_path, map_location='cpu')
     model.load_state_dict(checkpoint['state_dict'])
     model.cuda()

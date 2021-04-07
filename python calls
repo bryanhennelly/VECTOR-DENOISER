@@ -1,5 +1,5 @@
 cd C:\Users\bryan\OneDrive\Documents\Anaconda\NOISE_REMOVAL
-python train.py --is_train --cuda_id 0 --is_skip --base_model cae_6 --epochs 100 --dataset 1 --num_workers=0 --lr=0.1
+python train.py --is_train --cuda_id 0 --is_skip --base_model cae_6 --epochs 100 --dataset 1 --alpha 1 --num_workers=0 --lr=0.1
 python train.py --is_train --cuda_id 0 --is_skip --base_model cae_4
 python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 1
 python train.py --cuda_id 0 --is_skip --base_model cae_8 --dataset 2
@@ -23,3 +23,8 @@ cd C:\Users\bryan\OneDrive\Documents\Anaconda\NOISE_REMOVAL
 python 
 from Generate_Data import *
 generate_and_save_data(100,'./data/',3,'c')
+
+
+
+python train.py --cuda_id 0 --is_skip --base_model cae_6 --dataset '_alpha_0_5' --num_workers=0
+

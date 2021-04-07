@@ -171,21 +171,32 @@ def generate_bCARS(min_features,max_features,min_width,max_width):
     params = random_parameters_for_chi3(min_features,max_features,min_width,max_width)
     chi3 = generate_chi3(params)*np.random.uniform(0.3,1) #add weight between .3 and 1 
     nrb = generate_nrb() #nrb will have valeus between 0 and 1
+    # Scale Raman signal to be between 0 and 1 - this allows us to know the SNR distribution if we know the noise distribution
+    chi3.imag = chi3.imag - np.min(chi3.imag)
+    chi3.imag=chi3.imag/np.max(chi3.imag)
+
     noise = np.random.normal(0,np.random.uniform(0.0005,0.05),n_points)
     X=chi3.imag+noise
     
     
+    # Now normalise noisy signal so that it has min 0 and max 1 and do the same scaling exactly to the Raman signal to ensure a match in traiinng 
+    chi3.imag = chi3.imag - np.min(X)
+    X = X - np.min(X)
+    chi3.imag=chi3.imag/np.max(X)
+    X = X/np.max(X)
     
-    SNR = np.random.uniform(10,100) 
-    scale = SNR**2/np.ndarray.max(chi3.imag)
-    #print(np.ndarray.max(chi3.imag))
-    chi3.imag = chi3.imag*scale
-    X=np.random.poisson(chi3.imag,(1,1000))
-    SCALE = np.ndarray.max(X)
-    X=X/SCALE
-    chi3.imag=chi3.imag/SCALE
     
-    bcars = ((np.abs(chi3+nrb)**2)/2+noise)
+    
+    #SNR = np.random.uniform(10,100) 
+    #scale = SNR**2/np.ndarray.max(chi3.imag)
+    ##print(np.ndarray.max(chi3.imag))
+    #chi3.imag = chi3.imag*scale
+    #X=np.random.poisson(chi3.imag,(1,1000))
+    #SCALE = np.ndarray.max(X)
+    #X=X/SCALE
+    #chi3.imag=chi3.imag/SCALE
+    
+    #bcars = ((np.abs(chi3+nrb)**2)/2+noise)
     
     
     
